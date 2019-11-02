@@ -1,27 +1,35 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('channels', {
+    return queryInterface.createTable('channel', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstname: {
-        type: Sequelize.STRING
+      channelname: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true
       },
-      createdAt: {
+      firstname: { type: Sequelize.STRING },
+      lastname: { type: Sequelize.STRING },
+      biography: { type: Sequelize.STRING(5000) },
+      image_url: { type: Sequelize.STRING(1000) },
+      created_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('channels');
+    return queryInterface.dropTable('channel');
   }
 };

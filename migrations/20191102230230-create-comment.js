@@ -1,27 +1,46 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('comments', {
+    return queryInterface.createTable('comment', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      p_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'post',
+          key: 'id'
+        }
+      },
+      author: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'channel',
+          key: 'id'
+        }
+      },
       comment: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(6000),
+        allowNull: false
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('comments');
+    return queryInterface.dropTable('comment');
   }
 };
