@@ -6,8 +6,12 @@ const exjwt = require('express-jwt');
 const bcrypt = require('bcryptjs');
 const channelController = require('../controllers/channel');
 
+const router = express.Router();
+
 const jwtMW = exjwt({
   secret: process.env.JWT_PRIVATE_KEY,
 });
 
 router.post('/', asyncHandler(channelController.add));
+
+module.exports = router;
