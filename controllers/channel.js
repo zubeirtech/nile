@@ -20,7 +20,7 @@ module.exports = {
         const saveChannel = await channel.create({
           channelname, password: hash
         });
-        res.status(200).send()
+        res.status(200).send(channelSerializer.serialize(saveChannel))
       }
     } catch (error) {
       console.error(error);

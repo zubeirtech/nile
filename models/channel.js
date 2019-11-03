@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, { freezeTableName: true, underscored: true});
   channel.associate = function(models) {
-    // associations can be defined here
+    channel.hasMany(models.post, { as: 'posts'})
   };
   return channel;
 };
