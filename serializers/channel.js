@@ -9,5 +9,6 @@ module.exports = {
         attributes: ['creator', 'title', 'description', 'thumbnail_url', 'video_url', 'views']
       }
     })
+    return ChannelSerializer.serialize(data);
   }
 }

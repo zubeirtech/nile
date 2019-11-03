@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
+const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const utils = require('../utils/index');
 const { channel } = require('../models');
 const channelSerializer = require('../serializers/channel');
@@ -20,8 +21,13 @@ module.exports = {
         const saveChannel = await channel.create({
           channelname, password: hash
         });
-        res.status(200).send(channelSerializer.serialize(saveChannel))
+        res.status(200).send(channelSerializer.serialize(saveChannel.dataValues))
+        next();
+      } else {
+        res.status(409).send({message: "Account exists"});
+        next();
       }
+      next();
     } catch (error) {
       console.error(error);
       next(utils.errorMessage)
