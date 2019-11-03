@@ -1,15 +1,17 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { channel } = require('../models')
 
 module.exports = {
   async auth(req, res, next) {
-    const { channelname, password, grant_type } = req.body;
+    console.log(req.body);
+    const { username, password, grant_type } = req.body;
     if (grant_type === 'password') {
       try {
-        const findAccount = await account.findOne({ where: { channelname } });
-        if (account !== null) {
-          const record = findAccount.dataValues;
+        const findChannel = await channel.findOne({ where: { channelname: username } });
+        if (findChannel !== null) {
+          const record = findChannel.dataValues;
           if (bcrypt.compareSync(password, record.password)) {
             const payload = {
               id: record.id,
