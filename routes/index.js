@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+require('dotenv').config();
+const express = require('express');
+const router = express.Router();
+const asyncHandler = require('express-async-handler');
+const indexController = require('../controllers/index');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.post('/auth', asyncHandler(indexController.auth));
 
 module.exports = router;

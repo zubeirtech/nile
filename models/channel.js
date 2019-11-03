@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
     biography: DataTypes.STRING(5000),
-    image_url: DataTypes.STRING(1000)
+    image_url: DataTypes.STRING(1000),
+    password: DataTypes.STRING
   }, { freezeTableName: true, underscored: true});
   channel.associate = function(models) {
     // associations can be defined here
