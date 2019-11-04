@@ -1,7 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { channel } = require('../models')
+const { channel } = require('../models');
 
 module.exports = {
   async auth(req, res, next) {
@@ -33,6 +33,16 @@ module.exports = {
     } else {
       res.status(400).send('{ "error": "unsupported_grant_type" }');
       next();
+    }
+  },
+
+  async videoUpload(req, res, next){
+    try {
+      const video = req.file.buffer
+
+    } catch (error) {
+      console.error(error);
+      
     }
   }
 }

@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const fileUpload = require('express-fileupload');
 
 const indexRouter = require('./routes/index');
 const channelRouter = require('./routes/channels')
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(cors());
+app.use(fileUpload());
 
 //app.use(logger('dev'));
 

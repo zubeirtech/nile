@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, { freezeTableName: true, underscored: true});
   post.associate = function(models) {
-    post.belongsTo(models.channel, { foreignKey: 'creator', as: 'creator', onDelete: 'cascade'});
+    post.belongsTo(models.channel, { foreignKey: 'creator', onDelete: 'cascade'});
     post.hasMany(models.comment, { as: 'comments'});
     post.hasMany(models.like, { as: 'likes'});
   };
