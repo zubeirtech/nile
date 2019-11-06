@@ -1,8 +1,8 @@
 const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 const jwt = require('jsonwebtoken');
 const short = require('short-uuid');
-const util = require('../utils/index');
-const { post } = require('../models/post');
+const utils = require('../utils/index');
+const { post } = require('../models');
 const postSerializer = require('../serializers/post');
 
 module.exports = {
@@ -16,12 +16,13 @@ module.exports = {
       }).deserialize(req.body);
       data.fe_id = short.generate();
       data.creator = id;
+      data.views = 0;
       const savePost = await post.create(data);
       res.status(200).send(postSerializer.serialize(savePost));
       next();
     } catch (error) {
       console.log(error);
-      next(util.errorMessage);
+      next(utils.errorMessage);
     }
   }
 }

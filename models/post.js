@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     views: {
       type: DataTypes.INTEGER,
       allowNull: false
-    }
+    },
+    meta: DataTypes.JSONB
   }, { freezeTableName: true, underscored: true});
   post.associate = function(models) {
     post.belongsTo(models.channel, { foreignKey: 'creator', onDelete: 'cascade'});

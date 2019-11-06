@@ -6,7 +6,6 @@ module.exports = {
       'post',
       'meta', {
         type: Sequelize.JSONB,
-        allowNull: false
       }
     );
   },
