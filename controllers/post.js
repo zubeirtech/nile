@@ -16,7 +16,7 @@ module.exports = {
         keyForAttribute: 'underscore_case',
       }).deserialize(req.body);
       data.fe_id = short.generate();
-      data.creator = id;
+      data.channel_id = id;
       data.views = 0;
       const savePost = await post.create(data);
       res.status(200).send(postSerializer.serialize(savePost));

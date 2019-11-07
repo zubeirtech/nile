@@ -12,5 +12,6 @@ const jwtMW = exjwt({
 /* GET home page. */
 router.post('/auth', asyncHandler(indexController.auth));
 router.post('/upload', asyncHandler(indexController.upload));
+router.get('/images', indexController.streamImage);
 
 module.exports = router;

@@ -2,6 +2,8 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { channel } = require('../models');
+const fs = require('fs');
+const utils = require('../utils/index')
 
 module.exports = {
   async auth(req, res, next) {
@@ -57,11 +59,19 @@ module.exports = {
         res.status(200).send('File uploaded succesfully');
         next()
       })
-
-
     } catch (error) {
       console.error(error);
+      next(utils.errorMessage);
+    }
+  },
 
+  async streamImage(req, res) {
+    try {
+      const path = `files/${req.query.image}`;      
+      res.sendFile(process.env.ROOT + path);
+    } catch (error) {
+      console.error(error);
+      next(utils.errorMessage);
     }
   }
 }
