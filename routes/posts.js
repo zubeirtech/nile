@@ -9,7 +9,7 @@ const jwtMW = exjwt({
   secret: process.env.JWT_PRIVATE_KEY,
 });
 
-router.post('/', asyncHandler(postController.add));
-router.get('/', jwtMW, asyncHandler(postController.getAll));
+router.post('/', jwtMW, asyncHandler(postController.add));
+router.get('/', asyncHandler(postController.getAll));
 
 module.exports = router;
