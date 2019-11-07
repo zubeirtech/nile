@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const short = require('short-uuid');
 const utils = require('../utils/index');
 const { post } = require('../models');
+const { channel } = require('../models');
 const postSerializer = require('../serializers/post');
 
 module.exports = {
@@ -19,6 +20,24 @@ module.exports = {
       data.views = 0;
       const savePost = await post.create(data);
       res.status(200).send(postSerializer.serialize(savePost));
+      next();
+    } catch (error) {
+      console.log(error);
+      next(utils.errorMessage);
+    }
+  },
+
+  async getAll(req, res, next) {
+    try {
+      const findPosts = await post.findAll({
+        include: [
+          {
+            model: channel,
+            as: 'channel'
+          }
+        ],
+      });
+      res.status(200).send(postSerializer.serialize(findPosts));
       next();
     } catch (error) {
       console.log(error);

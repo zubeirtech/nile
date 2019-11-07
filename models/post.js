@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
-    creator: {
+    channel_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     meta: DataTypes.JSONB
   }, { freezeTableName: true, underscored: true});
   post.associate = function(models) {
-    post.belongsTo(models.channel, { foreignKey: 'creator', onDelete: 'cascade'});
+    post.belongsTo(models.channel, { foreignKey: 'channel_id', as: 'channel', onDelete: 'cascade'});
     post.hasMany(models.comment, { as: 'comments'});
     post.hasMany(models.like, { as: 'likes'});
   };
