@@ -19,7 +19,7 @@ module.exports = {
       if(record === null) {
         const hash = await utils.hash(password);
         const saveChannel = await channel.create({
-          channelname, password: hash, image_url: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'
+          channelname, password: hash, image_url: 'Potrait_Placeholder.png'
         });
         res.status(200).send(channelSerializer.serialize(saveChannel.dataValues))
         next();
