@@ -4,6 +4,8 @@ const short = require('short-uuid');
 const utils = require('../utils/index');
 const { post } = require('../models');
 const { channel } = require('../models');
+const { like } = require('../models');
+const { comment } = require('../models');
 const postSerializer = require('../serializers/post');
 
 module.exports = {
@@ -38,6 +40,36 @@ module.exports = {
         ],
       });
       res.status(200).send(postSerializer.serialize(findPosts));
+      next();
+    } catch (error) {
+      console.log(error);
+      next(utils.errorMessage);
+    }
+  },
+
+  async getOne(req, res, next) {
+    try {
+      const { id } = req.params;
+      const findPost = await post.findOne({ 
+        where: { 
+          fe_id: id
+        },
+        include: [
+          {
+            model: channel,
+            as: 'channel'
+          },
+          {
+            model: like,
+            as: 'likes'
+          },
+          {
+            model: comment,
+            as: 'comments'
+          }
+        ]
+      });
+      res.status(200).send(postSerializer.serialize(findPost));
       next();
     } catch (error) {
       console.log(error);

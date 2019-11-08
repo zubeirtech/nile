@@ -13,5 +13,6 @@ const jwtMW = exjwt({
 router.post('/auth', asyncHandler(indexController.auth));
 router.post('/upload', asyncHandler(indexController.upload));
 router.get('/images', indexController.streamImage);
+router.get('/videos', indexController.streamVideo);
 
 module.exports = router;

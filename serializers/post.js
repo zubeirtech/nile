@@ -4,18 +4,18 @@ module.exports = {
   serialize(data) {
     const PostSerializer = new JSONAPISerializer('post', {
       id: 'fe_id',
-      attributes: ['channel_id', 'title', 'description', 'thumbnail_url', 'video_url', 'views', 'created_at', 'channel'],
+      attributes: ['channel_id', 'title', 'description', 'thumbnail_url', 'video_url', 'views', 'createdAt', 'channel', 'likes', 'comments'],
       channel: {
         ref: 'id',
         attributes: ['channelname', 'firstname', 'lastname', 'biography', 'image_url']
       },
       likes: {
         ref: 'id', 
-        attributes: ['p_id', 'c_id']
+        attributes: ['post_id', 'channel_id']
       },
       comments: {
         ref: 'id',
-        attributes: ['p_id', 'author', 'comment']
+        attributes: ['post_id', 'channel_id', 'comment']
       }
     });
 

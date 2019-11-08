@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const comment = sequelize.define('comment', {
-    p_id: {
+    post_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    author: {
+    channel_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
