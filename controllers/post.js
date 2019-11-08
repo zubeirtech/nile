@@ -4,7 +4,7 @@ const short = require('short-uuid');
 const utils = require('../utils/index');
 const { post } = require('../models');
 const { channel } = require('../models');
-const { like } = require('../models');
+const { upvote } = require('../models');
 const { comment } = require('../models');
 const postSerializer = require('../serializers/post');
 
@@ -60,8 +60,8 @@ module.exports = {
             as: 'channel'
           },
           {
-            model: like,
-            as: 'likes'
+            model: upvote,
+            as: 'upvotes'
           },
           {
             model: comment,

@@ -1,22 +1,24 @@
 const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 const utils = require('../utils/index');
 const { post } = require('../models');
-const { like } = require('../models');
+const { upvote } = require('../models');
 const jwt = require('jsonwebtoken');
-const likeSerializer = require('../serializers/like');
+const upvoteSerializer = require('../serializers/upvote');
 
 module.exports = {
   async add(req, res, next) {
     try {
-      const { channel } = req.body.data.relationships;      
-      const pRec = req.body.data.relationships.post;
-      const postRecord = await post.findOne({ where: { fe_id: pRec.data.id}})
+      const record = await new JSONAPIDeserializer({
+        keyForAttribute: 'underscore_case',
+      }).deserialize(req.body);
+      console.log(record);
+      const postRecord = await post.findOne({ where: { fe_id: record.post_id }})
       const data = {
         post_id: postRecord.id,
-        channel_id: channel.data.id
+        channel_id: record.channel_id
       }
-      const saveLike = await like.create(data);
-      res.status(200).send(likeSerializer.serialize(saveLike));
+      const saveupvote = await upvote.create(data);
+      res.status(200).send(upvoteSerializer.serialize(saveupvote));
       next();
     } catch (error) {
       console.log(error);
@@ -27,8 +29,8 @@ module.exports = {
   async getOne(req, res, next) {
     try {
       const { id } = req.params;
-      const findLike = await like.findOne({ where: { channel_id: id}});
-      res.status(200).send(likeSerializer.serialize(findLike));
+      const findupvote = await upvote.findOne({ where: { channel_id: id}});
+      res.status(200).send(upvoteSerializer.serialize(findupvote));
       next();
     } catch (error) {
       console.log(error);
@@ -39,8 +41,8 @@ module.exports = {
   async delete(req, res, next) {
     try {
       const { id } = req.params;
-      const likeRecord = await like.findByPk(id);
-      await likeRecord.destroy();
+      const upvoteRecord = await upvote.findByPk(id);
+      await upvoteRecord.destroy();
       res.status(204).send({});
       next();
     } catch (error) {
@@ -54,13 +56,12 @@ module.exports = {
       const { channel_id } = req.query
       console.log(channel_id);
       
-      const record = await like.findOne({
+      const record = await upvote.findOne({
         where: {
           channel_id
         }
       });
-      console.log(record);
-      res.status(200).send(likeSerializer.serialize(record));
+      res.status(200).send(upvoteSerializer.serialize(record));
       next();
     } catch (error) {
       console.log(error);

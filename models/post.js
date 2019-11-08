@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   post.associate = function(models) {
     post.belongsTo(models.channel, { foreignKey: 'channel_id', as: 'channel', onDelete: 'cascade'});
     post.hasMany(models.comment, { as: 'comments'});
-    post.hasMany(models.like, { as: 'likes'});
+    post.hasMany(models.upvote, { as: 'upvotes'});
   };
   return post;
 };
