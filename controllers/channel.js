@@ -32,5 +32,18 @@ module.exports = {
       console.error(error);
       next(utils.errorMessage)
     }
+  },
+
+  async get(req, res, next) {
+    try {
+      const payload = await jwt.verify(req.query.access_token, process.env.JWT_PRIVATE_KEY);
+      const { id } = payload;
+      const record = await channel.findByPk(id);
+      res.status(200).send(channelSerializer.serialize(record));
+      next();
+    } catch (error) {
+      console.error(error);
+      next(utils.errorMessage)
+    }
   }
 }

@@ -10,6 +10,7 @@ const fileUpload = require('express-fileupload');
 const indexRouter = require('./routes/index');
 const channelRouter = require('./routes/channels');
 const postRouter = require('./routes/posts');
+const likeRouter = require('./routes/likes');
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
@@ -22,6 +23,8 @@ app.use(fileUpload());
 app.use('/api', indexRouter);
 app.use('/api/channels', channelRouter);
 app.use('/api/posts', postRouter);
+app.use('/api/likes', likeRouter);
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

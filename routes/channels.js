@@ -13,5 +13,6 @@ const jwtMW = exjwt({
 });
 
 router.post('/', asyncHandler(channelController.add));
+router.get('/', asyncHandler(channelController.get));
 
 module.exports = router;
