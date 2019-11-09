@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, { freezeTableName: true, underscored: true });
   comment.associate = function(models) {
-    // associations can be defined here
+    comment.belongsTo(models.channel, { foreignKey: 'channel_id', as: 'channel'})
   };
   return comment;
 };

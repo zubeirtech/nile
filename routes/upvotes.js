@@ -13,7 +13,4 @@ router.post('/', jwtMW, asyncHandler(upvoteController.add));
 router.get('/:id', asyncHandler(upvoteController.getOne));
 router.get('/', asyncHandler(upvoteController.get));
 router.delete('/:id', jwtMW, asyncHandler(upvoteController.delete));
-// router.get('/', asyncHandler(postController.getAll));
-// router.get('/:id', asyncHandler(postController.getOne));
-
 module.exports = router;

@@ -65,10 +65,21 @@ module.exports = {
           },
           {
             model: comment,
-            as: 'comments'
+            as: 'comments',
+            include: [
+              {
+                model: channel,
+                as: 'channel'
+              }
+            ]
           }
+        ],
+        order: [
+          [{model: comment , as: 'comments'}, 'created_at', 'DESC']
         ]
       });
+      console.log(findPost.comments);
+      
       res.status(200).send(postSerializer.serialize(findPost));
       next();
     } catch (error) {
