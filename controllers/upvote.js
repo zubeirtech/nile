@@ -11,7 +11,6 @@ module.exports = {
       const record = await new JSONAPIDeserializer({
         keyForAttribute: 'underscore_case',
       }).deserialize(req.body);
-      console.log(record);
       const postRecord = await post.findOne({ where: { fe_id: record.post_id }})
       const data = {
         post_id: postRecord.id,
@@ -54,7 +53,6 @@ module.exports = {
   async get(req, res, next) {
     try {
       const { channel_id } = req.query
-      console.log(channel_id);
       
       const record = await upvote.findOne({
         where: {

@@ -2,9 +2,9 @@ const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 const utils = require('../utils/index');
 const { comment } = require('../models');
 const { post } = require('../models');
-const { upvote } = require('../models');
+const { channel } = require('../models');
 const jwt = require('jsonwebtoken');
-const upvoteSerializer = require('../serializers/upvote');
+const commentSerializer = require('../serializers/comment');
 
 module.exports = {
   async add(req, res, next) {
@@ -18,8 +18,8 @@ module.exports = {
         channel_id: record.channel_id,
         comment: record.comment
       }
-      const saveupvote = await comment.create(data);
-      res.status(200).send(upvoteSerializer.serialize(saveupvote));
+      const saveComment = await comment.create(data);
+      res.status(200).send(commentSerializer.serialize(saveComment));
       next();
     } catch (error) {
       console.log(error);
@@ -54,15 +54,24 @@ module.exports = {
 
   async get(req, res, next) {
     try {
-      const { channel_id } = req.query
-      console.log(channel_id);
+      const { post_id } = req.query
+      const postRecord = await post.findOne({ where: { fe_id: post_id }});
 
-      const record = await upvote.findOne({
+      const record = await comment.findAll({
         where: {
-          channel_id
-        }
+          post_id: postRecord.id
+        },
+        include: [
+          {
+            model: channel,
+            as: 'channel'
+          }
+        ],
+        order: [
+          ['created_at', 'DESC']
+        ]
       });
-      res.status(200).send(upvoteSerializer.serialize(record));
+      res.status(200).send(commentSerializer.serialize(record));
       next();
     } catch (error) {
       console.log(error);

@@ -78,7 +78,6 @@ module.exports = {
           [{model: comment , as: 'comments'}, 'created_at', 'DESC']
         ]
       });
-      console.log(findPost.comments);
       
       res.status(200).send(postSerializer.serialize(findPost));
       next();
