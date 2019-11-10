@@ -68,7 +68,7 @@ module.exports = {
       
       const savedFile = bucket.file(file.name);
 
-      const blob = await bucket.upload(uploadPath);
+      const blob = await bucket.upload(file.name);
 
       res.status(200).send('File uploaded succesfully');
       next()
