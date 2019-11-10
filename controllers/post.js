@@ -78,7 +78,9 @@ module.exports = {
           [{model: comment , as: 'comments'}, 'created_at', 'DESC']
         ]
       });
-      
+
+      findPost.views += 1;
+      await findPost.save();
       res.status(200).send(postSerializer.serialize(findPost));
       next();
     } catch (error) {
