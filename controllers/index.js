@@ -54,7 +54,7 @@ module.exports = {
         next()
         return;
       }
-      const uploadPath = __dirname + '/' + file.name;
+      const uploadPath = file.name;
 
       file.mv(uploadPath, function (err) {
         if (err) {
