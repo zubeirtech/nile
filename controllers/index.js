@@ -66,7 +66,7 @@ module.exports = {
 
       const bucket = await storage.bucket(process.env.G_BUCKET_NAME);
       
-      const savedFile = bucket.file(file.name);
+      const savedFile = bucket.file(uploadPath);
 
       const blob = await bucket.upload(file.name);
 
