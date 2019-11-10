@@ -17,7 +17,6 @@ module.exports = {
     "dialectOptions": {
       "ssl": true
     },
-    "use_env_variable": process.env.DB_URI
   },
   "production": {
     "username": process.env.DB_USER,
@@ -28,6 +27,5 @@ module.exports = {
     "dialectOptions": {
       "ssl": true
     },
-    "use_env_variable": process.env.DB_URI
   }
 }
