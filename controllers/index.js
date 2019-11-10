@@ -10,7 +10,7 @@ const appRoot = require('app-root-path');
 
 const storage = new Storage({
   projectId: process.env.G_CLOUD_PROJECT_ID,
-  keyFilename: 'google.json'
+  keyFilename: __dirname + '/google.json'
 });
 
 module.exports = {
