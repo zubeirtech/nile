@@ -7,7 +7,6 @@ const fs = require('fs');
 const utils = require('../utils/index');
 const { Storage } = require('@google-cloud/storage');
 const appRoot = require('app-root-path');
-const fileDir = require('@files');
 
 const storage = new Storage({
   projectId: process.env.G_CLOUD_PROJECT_ID,
@@ -55,7 +54,7 @@ module.exports = {
         next()
         return;
       }
-      const uploadPath = fileDir + '/' + file.name;
+      const uploadPath = __dirname + '/files/' + file.name;
 
       file.mv(uploadPath, function (err) {
         if (err) {
