@@ -2,8 +2,17 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { channel } = require('../models');
+const path = require('path');
 const fs = require('fs');
-const utils = require('../utils/index')
+const utils = require('../utils/index');
+const { Storage } = require('@google-cloud/storage');
+const appRoot = require('app-root-path');
+
+const storage = new Storage({
+  projectId: process.env.G_CLOUD_PROJECT_ID,
+  keyFilename: process.env.ROOT + 'config/google.json'
+});
+
 
 module.exports = {
   async auth(req, res, next) {
@@ -46,8 +55,7 @@ module.exports = {
         next()
         return;
       }
-
-      const uploadPath = '/home/zumo/GIT/zumo/webapps/nile/nile/files/' + file.name;
+      const uploadPath = process.env.ROOT + 'files/' + file.name;
 
       file.mv(uploadPath, function (err) {
         if (err) {
@@ -55,10 +63,16 @@ module.exports = {
           return res.status(500).send('Error');
           next()
         }
+       });
 
-        res.status(200).send('File uploaded succesfully');
-        next()
-      })
+      const bucket = await storage.bucket(process.env.G_BUCKET_NAME);
+      
+      const savedFile = bucket.file(file.name);
+
+      const blob = await bucket.upload(uploadPath);
+
+      res.status(200).send('File uploaded succesfully');
+      next()
     } catch (error) {
       console.error(error);
       next(utils.errorMessage);
@@ -67,7 +81,7 @@ module.exports = {
 
   async streamImage(req, res) {
     try {
-      const path = `files/${req.query.image}`;      
+      const path = `files/${req.query.image}`;
       res.sendFile(process.env.ROOT + path);
     } catch (error) {
       console.error(error);
@@ -77,7 +91,7 @@ module.exports = {
 
   async streamVideo(req, res) {
     try {
-      const path = `${process.env.ROOT}files/${req.query.video}`;      
+      const path = `${process.env.ROOT}files/${req.query.video}`;
       const stat = fs.statSync(path)
       const fileSize = stat.size
       const range = req.headers.range

@@ -93,6 +93,8 @@ module.exports = {
     try {
       const { id } = req.params;
       const getPost = await post.findOne({ where: { fe_id: id}});
+      await comment.destroy({ where: { post_id: getPost.id}});
+      await upvote.destroy({ where: { post_id: getPost.id}});
       await getPost.destroy();
       res.status(204).send({});
       next();

@@ -13,6 +13,8 @@ const postRouter = require('./routes/posts');
 const upvoteRouter = require('./routes/upvotes');
 const commentRouter = require('./routes/comments');
 
+global.__basedir = __dirname;
+
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
