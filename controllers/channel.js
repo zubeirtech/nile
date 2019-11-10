@@ -3,6 +3,7 @@ const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const utils = require('../utils/index');
 const { channel } = require('../models');
+const { post } = require('../models');
 const channelSerializer = require('../serializers/channel');
 require('dotenv').config();
 
@@ -38,7 +39,20 @@ module.exports = {
     try {
       const payload = await jwt.verify(req.query.access_token, process.env.JWT_PRIVATE_KEY);
       const { id } = payload;
-      const record = await channel.findByPk(id);
+      const record = await channel.findOne({
+        where: {
+          id
+        },
+        include: [
+          {
+            model: post,
+            as: 'posts'
+          }
+        ],
+        order: [
+          ['created_at', 'DESC']
+        ]
+      })
       res.status(200).send(channelSerializer.serialize(record));
       next();
     } catch (error) {
@@ -60,6 +74,30 @@ module.exports = {
     } catch (error) {
       console.error(error);
       next(utils.errorMessage)
+    }
+  },
+  async getOne(req, res, next) {
+    try {
+      const { id } = req.params;
+      const findChannel = await channel.findOne({
+        where: {
+          id
+        }, 
+        include: [
+          {
+            model: post,
+            as: 'posts'
+          }
+        ],
+        order: [
+          ['created_at', 'DESC']
+        ]
+      });
+      res.status(200).send(channelSerializer.serialize(findChannel));
+      next();
+    } catch (error) {
+      console.log(error);
+      next(utils.errorMessage);
     }
   }
 }

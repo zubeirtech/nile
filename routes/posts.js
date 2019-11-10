@@ -12,5 +12,6 @@ const jwtMW = exjwt({
 router.post('/', jwtMW, asyncHandler(postController.add));
 router.get('/', asyncHandler(postController.getAll));
 router.get('/:id', asyncHandler(postController.getOne));
+router.delete('/:id', jwtMW, asyncHandler(postController.delete));
 
 module.exports = router;

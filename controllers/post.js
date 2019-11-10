@@ -87,5 +87,18 @@ module.exports = {
       console.log(error);
       next(utils.errorMessage);
     }
+  },
+
+  async delete(req, res, next) {
+    try {
+      const { id } = req.params;
+      const getPost = await post.findOne({ where: { fe_id: id}});
+      await getPost.destroy();
+      res.status(204).send({});
+      next();
+    } catch (error) {
+      console.log(error);
+      next(utils.errorMessage);
+    }
   }
 }
