@@ -45,5 +45,21 @@ module.exports = {
       console.error(error);
       next(utils.errorMessage)
     }
+  },
+
+  async update(req, res, next) {
+    try {
+      const { id } = req.params;
+      const data = await new JSONAPIDeserializer({
+        keyForAttribute: 'underscore_case',
+      }).deserialize(req.body);
+      const getChannel = await channel.findByPk(id);
+      const updateChannel = await getChannel.update(data);
+      res.status(200).send(channelSerializer.serialize(updateChannel));
+      next();
+    } catch (error) {
+      console.error(error);
+      next(utils.errorMessage)
+    }
   }
 }
