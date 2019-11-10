@@ -13,8 +13,6 @@ const storage = new Storage({
   keyFilename: process.env.ROOT + 'config/google.json'
 });
 
-const fileDir = require(appRoot + '/files/');
-
 module.exports = {
   async auth(req, res, next) {
     console.log(req.body);
@@ -56,7 +54,7 @@ module.exports = {
         next()
         return;
       }
-      const uploadPath = fileDir + file.name;
+      const uploadPath = 'files/' + file.name;
 
       file.mv(uploadPath, function (err) {
         if (err) {
