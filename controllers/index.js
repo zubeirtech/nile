@@ -9,7 +9,7 @@ const { Storage } = require('@google-cloud/storage');
 
 const storage = new Storage({
   projectId: process.env.G_CLOUD_PROJECT_ID,
-  keyFilename: './config/google.json'
+  keyFilename: 'google.json'
 });
 
 module.exports = {
