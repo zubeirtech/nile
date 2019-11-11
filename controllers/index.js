@@ -6,11 +6,10 @@ const path = require('path');
 const fs = require('fs');
 const utils = require('../utils/index');
 const { Storage } = require('@google-cloud/storage');
-const appRoot = require('app-root-path');
 
 const storage = new Storage({
   projectId: process.env.G_CLOUD_PROJECT_ID,
-  keyFilename: __dirname + '/google.json'
+  keyFilename: './config/google.json'
 });
 
 module.exports = {
@@ -53,7 +52,8 @@ module.exports = {
         res.status(400).send('No files were uploaded.');
         next()
         return;
-      }
+      }      
+
       const uploadPath = file.name;
 
       file.mv(uploadPath, function (err) {
@@ -66,14 +66,26 @@ module.exports = {
 
       const bucket = await storage.bucket(process.env.G_BUCKET_NAME);
       
-      const savedFile = bucket.file(uploadPath);
+      const savedFile = await bucket.file(uploadPath);
+    
 
       const blob = await bucket.upload(file.name);
+
+      fs.unlinkSync(uploadPath, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+
+        //file removed
+      })
+
 
       res.status(200).send('File uploaded succesfully');
       next()
     } catch (error) {
       console.error(error);
+      await fs.unlinkSync(uploadPath)
       next(utils.errorMessage);
     }
   },

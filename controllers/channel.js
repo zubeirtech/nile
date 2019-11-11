@@ -37,7 +37,8 @@ module.exports = {
 
   async get(req, res, next) {
     try {
-      const payload = await jwt.verify(req.query.access_token, process.env.JWT_PRIVATE_KEY);
+      const accessToken = utils.getAccessToken(req);
+      const payload = await jwt.verify(accessToken, process.env.JWT_PRIVATE_KEY);
       const { id } = payload;
       const record = await channel.findOne({
         where: {
